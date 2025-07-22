@@ -80,16 +80,40 @@
                         <?php endif; ?>
                         
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="card text-center">
-                                    <div class="card-body">
-                                        <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
-                                        <h5>Mes Projets</h5>
-                                        <p class="text-muted">Gérer vos projets</p>
-                                        <a href="index.php?action=projects" class="btn btn-primary">Voir les projets</a>
+                            <?php if ($authController->isAdmin()): ?>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
+                                            <h5>Mes Projets</h5>
+                                            <p class="text-muted">Gérer vos projets</p>
+                                            <a href="index.php?action=projects" class="btn btn-primary">Voir mes projets</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <i class="fas fa-cogs fa-3x text-warning mb-3"></i>
+                                            <h5>Gestion des Projets</h5>
+                                            <p class="text-muted">Gérer tous les projets</p>
+                                            <a href="index.php?action=projects&subaction=admin" class="btn btn-warning">Gérer les projets</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
+                                            <h5>Mes Projets</h5>
+                                            <p class="text-muted">Gérer vos projets</p>
+                                            <a href="index.php?action=projects" class="btn btn-primary">Voir les projets</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             
                             <div class="col-md-4">
                                 <div class="card text-center">

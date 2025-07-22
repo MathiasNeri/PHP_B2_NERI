@@ -17,8 +17,8 @@
                             <h2 class="text-info">
                                 <i class="fas fa-shield-alt"></i>
                             </h2>
-                            <h4>Question de sécurité</h4>
-                            <p class="text-muted">Répondez à votre question de sécurité</p>
+                            <h4>Question de sécurité pour récupération de mot de passe</h4>
+                            <p class="text-muted">Répondez à votre question de sécurité pour récupérer votre mot de passe</p>
                         </div>
 
                         <?php if (!empty($error)): ?>
@@ -33,7 +33,7 @@
                             
                             <div class="mb-3">
                                 <label class="form-label">
-                                    <i class="fas fa-question-circle"></i> Question de sécurité
+                                    <i class="fas fa-question-circle"></i> Votre question de sécurité
                                 </label>
                                 <div class="form-control-plaintext">
                                     <strong><?= htmlspecialchars($user['security_question']) ?></strong>
@@ -42,7 +42,7 @@
 
                             <div class="mb-3">
                                 <label for="security_answer" class="form-label">
-                                    <i class="fas fa-key"></i> Votre réponse
+                                    <i class="fas fa-key"></i> Votre réponse secrète
                                 </label>
                                 <input type="text" 
                                        class="form-control" 
@@ -50,7 +50,7 @@
                                        name="security_answer" 
                                        required>
                                 <div class="form-text">
-                                    Répondez exactement comme vous l'avez configuré.
+                                    Répondez exactement comme vous l'avez configuré lors de la création de votre compte.
                                 </div>
                             </div>
 

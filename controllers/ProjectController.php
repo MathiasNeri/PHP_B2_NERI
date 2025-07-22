@@ -22,13 +22,25 @@ class ProjectController {
         $user = $this->authController->getCurrentUser();
         $authController = $this->authController; // Passer la variable à la vue
         
-        if ($this->authController->isAdmin()) {
-            $projects = $this->projectModel->getAll();
-        } else {
-            $projects = $this->projectModel->getByUserId($user['id']);
-        }
+        // Pour les admins, afficher seulement leurs projets
+        $projects = $this->projectModel->getByUserId($user['id']);
         
         include __DIR__ . '/../views/projects/index.php';
+    }
+    
+    /**
+     * Afficher la liste de tous les projets (admin seulement)
+     */
+    public function adminIndex() {
+        $this->authController->requireAdmin();
+        
+        $user = $this->authController->getCurrentUser();
+        $authController = $this->authController;
+        
+        // Récupérer tous les projets avec les informations des utilisateurs
+        $projects = $this->projectModel->getAllWithUsers();
+        
+        include __DIR__ . '/../views/projects/admin_index.php';
     }
     
     /**

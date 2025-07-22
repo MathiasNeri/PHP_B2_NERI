@@ -49,9 +49,30 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
    ```
 
 2. Importer la base de données :
-   - Ouvrir phpMyAdmin ou utiliser la ligne de commande
-   - Exécuter le fichier `database/database.sql`
-   - Le script créera automatiquement la base de données et les tables
+
+   **Option A - Ligne de commande (recommandé) :**
+   ```bash
+   # Se connecter à MySQL en tant qu'administrateur
+   mysql -u root -p
+   
+   # Une fois connecté, exécuter :
+   source database/database.sql;
+   
+   # Ou directement en une seule commande :
+   mysql -u root -p < database/database.sql
+   ```
+
+   **Option B - phpMyAdmin :**
+   - Ouvrir phpMyAdmin
+   - Cliquer sur "Importer"
+   - Sélectionner le fichier `database/database.sql`
+   - Cliquer sur "Exécuter"
+
+   Le script créera automatiquement :
+   - La base de données `projetb2`
+   - L'utilisateur MySQL `projetb2` avec mot de passe `password`
+   - Toutes les tables nécessaires
+   - Les 3 comptes de test avec leurs projets et compétences
 
 3. Configurer la connexion à la base de données :
    Modifier le fichier config/database.php :
@@ -69,14 +90,43 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
    ```
    Puis accéder à l'application via http://localhost:8000
 
-## Comptes de Test
+### Dépannage
 
-### Compte Administrateur
-- **Email** : admin@portfolio.com
+#### Erreur de connexion à la base de données
+Si vous obtenez une erreur "Accès refusé pour l'utilisateur 'projetb2'", vérifiez que :
+- Le script `database.sql` a bien été exécuté complètement
+- L'utilisateur `projetb2` existe dans MySQL
+- Les privilèges ont été accordés
+
+Pour vérifier/créer manuellement l'utilisateur :
+```sql
+CREATE USER IF NOT EXISTS 'projetb2'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON projetb2.* TO 'projetb2'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+#### Erreur "database not found"
+Assurez-vous que la base de données `projetb2` existe :
+```sql
+SHOW DATABASES;
+USE projetb2;
+SHOW TABLES;
+```
+
+### Comptes de Test
+
+#### 👑 Compte Administrateur
+- **Nom** : Admin
+- **Email** : Admin@example.com
 - **Mot de passe** : password
 
-### Compte Utilisateur
-- **Email** : Mat_3.user@example.com
+#### 👤 Comptes Utilisateurs
+- **Nom** : User1
+- **Email** : User1@example.com
+- **Mot de passe** : password
+
+- **Nom** : User2
+- **Email** : User2@example.com
 - **Mot de passe** : password
 
 ## Structure du Projet
@@ -98,4 +148,4 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 Ce projet est sous licence MIT.
 
 ## Contact
-Une question ou un bug ? Contactez-moi : [votre.email@example.com] 
+Une question ou un bug ? Contactez-moi : [mathias.neri@ynov.com] 

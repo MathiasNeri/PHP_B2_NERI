@@ -92,6 +92,9 @@ switch ($action) {
             case 'index':
                 $projectController->index();
                 break;
+            case 'admin':
+                $projectController->adminIndex();
+                break;
             case 'create':
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $projectController->create();

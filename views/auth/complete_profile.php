@@ -100,15 +100,15 @@
                             <hr class="my-4">
 
                             <h5 class="mb-3">
-                                <i class="fas fa-shield-alt"></i> Question de sécurité
+                                <i class="fas fa-shield-alt"></i> Question de sécurité pour récupération de mot de passe
                             </h5>
                             <p class="text-muted small">
-                                Cette question vous aidera à récupérer votre mot de passe si vous l'oubliez.
+                                Cette question vous aidera à récupérer votre mot de passe si vous l'oubliez. Elle est essentielle pour la sécurité de votre compte.
                             </p>
 
                             <div class="mb-3">
                                 <label for="security_question" class="form-label">
-                                    <i class="fas fa-question-circle"></i> Votre question
+                                    <i class="fas fa-question-circle"></i> Votre question de sécurité
                                 </label>
                                 <input type="text" 
                                        class="form-control" 
@@ -118,13 +118,13 @@
                                        placeholder="Ex: Quel est le nom de votre premier animal de compagnie ?"
                                        required>
                                 <div class="form-text">
-                                    Choisissez une question personnelle dont vous seul connaissez la réponse.
+                                    Choisissez une question personnelle dont vous seul connaissez la réponse. Cette question sera utilisée pour récupérer votre mot de passe.
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="security_answer" class="form-label">
-                                    <i class="fas fa-key"></i> Votre réponse
+                                    <i class="fas fa-key"></i> Votre réponse secrète
                                 </label>
                                 <input type="text" 
                                        class="form-control" 
@@ -134,7 +134,7 @@
                                        placeholder="Votre réponse secrète"
                                        required>
                                 <div class="form-text">
-                                    Cette réponse sera sécurisée et ne sera jamais affichée.
+                                    Cette réponse sera sécurisée et ne sera jamais affichée. Elle vous permettra de récupérer votre mot de passe.
                                 </div>
                             </div>
 

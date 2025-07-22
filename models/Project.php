@@ -63,6 +63,19 @@ class Project {
     }
     
     /**
+     * Récupérer tous les projets avec informations utilisateurs détaillées (admin)
+     */
+    public function getAllWithUsers() {
+        $sql = "SELECT p.*, u.username, u.email, u.role 
+                FROM projects p 
+                JOIN users u ON p.user_id = u.id 
+                ORDER BY p.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    
+    /**
      * Mettre à jour un projet
      */
     public function update($id, $data) {

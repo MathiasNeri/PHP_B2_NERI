@@ -68,10 +68,10 @@ CREATE TABLE user_skills (
 -- Insertion des données de test
 
 -- Utilisateurs (mot de passe: password)
-INSERT INTO users (username, email, password, role) VALUES
-('admin', 'admin@portfolio.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'admin'),
-('john_doe', 'john@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user'),
-('jane_smith', 'jane@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user');
+INSERT INTO users (username, email, password, role, bio, security_question, security_answer, profile_completed) VALUES
+('Admin', 'Admin@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'admin', 'Administrateur principal du système. Gestion complète des utilisateurs et des compétences.', 'Quel est le nom de votre premier animal de compagnie ?', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', TRUE),
+('User1', 'User1@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user', 'Développeur web passionné par les nouvelles technologies.', 'Quel est le nom de votre premier animal de compagnie ?', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', TRUE),
+('User2', 'User2@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user', 'Designer créatif spécialisé dans l\'expérience utilisateur.', 'Quel est le nom de votre premier animal de compagnie ?', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', TRUE);
 
 -- Compétences
 INSERT INTO skills (name, description, category) VALUES
@@ -106,33 +106,41 @@ INSERT INTO skills (name, description, category) VALUES
 
 -- Projets
 INSERT INTO projects (user_id, title, description, image, link) VALUES
--- Projets de l'admin
-(1, 'Portfolio Personnel', 'Un portfolio moderne développé en PHP/MVC avec authentification et gestion de projets', 'portfolio.jpg', 'https://github.com/admin/portfolio'),
-(1, 'Système de Gestion', 'Application web pour la gestion d\'entreprise avec interface admin', 'gestion.jpg', 'https://github.com/admin/gestion'),
-(1, 'API REST', 'API RESTful développée en PHP pour une application mobile', 'api.jpg', 'https://github.com/admin/api'),
+-- Projets de Admin
+(1, 'Système de Gestion Portfolio', 'Application complète de gestion de portfolio avec authentification et interface admin.', 'portfolio-admin.jpg', 'https://github.com/admin/portfolio-system'),
+(1, 'API REST Sécurisée', 'API RESTful avec authentification JWT et validation des données.', 'api-secure.jpg', 'https://github.com/admin/secure-api'),
+(1, 'Dashboard Analytics', 'Tableau de bord d\'analytics avec graphiques et métriques en temps réel.', 'dashboard-analytics.jpg', 'https://github.com/admin/analytics-dashboard'),
 
--- Projets de John Doe
-(2, 'Site E-commerce', 'Boutique en ligne développée avec PHP et MySQL', 'ecommerce.jpg', 'https://github.com/john/ecommerce'),
-(2, 'Blog Personnel', 'Blog développé avec Laravel et Bootstrap', 'blog.jpg', 'https://github.com/john/blog'),
-(2, 'Application Mobile', 'Application mobile hybride avec React Native', 'mobile.jpg', 'https://github.com/john/mobile'),
+-- Projets de User1
+(2, 'Site E-commerce Moderne', 'Boutique en ligne responsive avec panier dynamique et paiement sécurisé.', 'ecommerce-modern.jpg', 'https://github.com/user1/modern-ecommerce'),
+(2, 'Application de Blog', 'Blog personnel avec système de commentaires et gestion des articles.', 'blog-app.jpg', 'https://github.com/user1/blog-application'),
+(2, 'Portfolio Développeur', 'Portfolio professionnel avec animations et design moderne.', 'dev-portfolio.jpg', 'https://github.com/user1/dev-portfolio'),
 
--- Projets de Jane Smith
-(3, 'Dashboard Analytics', 'Tableau de bord d\'analytics avec JavaScript et Chart.js', 'dashboard.jpg', 'https://github.com/jane/dashboard'),
-(3, 'Système de Réservation', 'Application de réservation en ligne avec PHP', 'reservation.jpg', 'https://github.com/jane/reservation'),
-(3, 'Portfolio Créatif', 'Portfolio artistique avec animations CSS avancées', 'creative.jpg', 'https://github.com/jane/creative');
+-- Projets de User2
+(3, 'Design System Complet', 'Système de design avec composants réutilisables et documentation.', 'design-system.jpg', 'https://github.com/user2/design-system'),
+(3, 'Application Mobile UI', 'Interface utilisateur mobile avec animations fluides et design intuitif.', 'mobile-ui.jpg', 'https://github.com/user2/mobile-ui'),
+(3, 'Site Vitrine Créatif', 'Site vitrine avec design créatif et expérience utilisateur optimisée.', 'creative-showcase.jpg', 'https://github.com/user2/creative-showcase');
 
 -- Compétences des utilisateurs
 INSERT INTO user_skills (user_id, skill_id, level) VALUES
--- Admin (toutes les compétences)
-(1, 1, 'expert'), (1, 2, 'avancé'), (1, 3, 'expert'), (1, 4, 'avancé'), (1, 5, 'intermédiaire'),
-(1, 6, 'expert'), (1, 7, 'avancé'), (1, 8, 'intermédiaire'), (1, 9, 'débutant'), (1, 10, 'intermédiaire'),
-(1, 11, 'avancé'), (1, 12, 'intermédiaire'),
+-- Admin (5 compétences)
+(1, 1, 'expert'),   -- PHP
+(1, 7, 'expert'),   -- MySQL
+(1, 10, 'expert'),  -- Git
+(1, 16, 'avancé'),  -- Laravel
+(1, 21, 'avancé'),  -- VS Code
 
--- John Doe (compétences backend)
-(2, 1, 'avancé'), (2, 4, 'avancé'), (2, 7, 'avancé'), (2, 6, 'intermédiaire'), (2, 10, 'débutant'),
+-- User1 (4 compétences)
+(2, 1, 'avancé'),   -- PHP
+(2, 2, 'avancé'),   -- JavaScript
+(2, 3, 'expert'),   -- HTML/CSS
+(2, 13, 'intermédiaire'), -- Bootstrap
 
--- Jane Smith (compétences frontend)
-(3, 2, 'expert'), (3, 3, 'expert'), (3, 5, 'avancé'), (3, 8, 'avancé'), (3, 6, 'intermédiaire');
+-- User2 (4 compétences)
+(3, 2, 'expert'),   -- JavaScript
+(3, 3, 'expert'),   -- HTML/CSS
+(3, 19, 'expert'),  -- Photoshop
+(3, 20, 'avancé');  -- Figma
 
 -- Index pour optimiser les performances
 CREATE INDEX idx_projects_user ON projects(user_id);

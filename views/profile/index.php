@@ -192,7 +192,7 @@
                         <!-- Question de sécurité -->
                         <div class="card shadow mt-4">
                             <div class="card-header">
-                                <h5><i class="fas fa-shield-alt"></i> Question de sécurité</h5>
+                                <h5><i class="fas fa-shield-alt"></i> Question de sécurité pour récupération de mot de passe</h5>
                             </div>
                             <div class="card-body">
                                 <form method="POST" action="index.php?action=profile&subaction=security_question">
@@ -200,7 +200,7 @@
                                     
                                     <div class="mb-3">
                                         <label for="security_question" class="form-label">
-                                            <i class="fas fa-question-circle"></i> Votre question
+                                            <i class="fas fa-question-circle"></i> Votre question de sécurité
                                         </label>
                                         <input type="text" 
                                                class="form-control" 
@@ -211,13 +211,13 @@
                                                required>
                                         <div class="form-text">
                                             <i class="fas fa-question-circle text-info"></i> 
-                                            Choisissez une question personnelle dont vous seul connaissez la réponse.
+                                            Cette question sera utilisée pour récupérer votre mot de passe en cas d'oubli. Choisissez une question personnelle dont vous seul connaissez la réponse.
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="security_answer" class="form-label">
-                                            <i class="fas fa-key"></i> Votre réponse
+                                            <i class="fas fa-key"></i> Votre réponse secrète
                                         </label>
                                         <input type="password" 
                                                class="form-control" 
@@ -230,7 +230,7 @@
                                                required>
                                         <div class="form-text">
                                             <i class="fas fa-shield-alt text-success"></i> 
-                                            Cette réponse sera <strong>hachée et sécurisée</strong> et ne sera jamais affichée en clair.
+                                            Cette réponse sera <strong>hachée et sécurisée</strong> et ne sera jamais affichée en clair. Elle vous permettra de récupérer votre mot de passe.
                                         </div>
                                     </div>
 
@@ -245,12 +245,12 @@
                                                autocomplete="current-password"
                                                required>
                                         <div class="form-text">
-                                            Confirmez votre mot de passe pour modifier la question de sécurité.
+                                            Confirmez votre mot de passe pour modifier la question de sécurité de récupération de mot de passe.
                                         </div>
                                     </div>
 
                                     <button type="submit" class="btn btn-warning">
-                                        <i class="fas fa-shield-alt"></i> Mettre à jour la question de sécurité
+                                        <i class="fas fa-shield-alt"></i> Mettre à jour la question de sécurité de récupération
                                     </button>
                                 </form>
                             </div>
