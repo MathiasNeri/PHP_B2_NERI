@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/EncodingHelper.php';
 
 /**
  * Classe User - Gestion des utilisateurs
@@ -12,9 +13,38 @@ class User {
     }
     
     /**
+     * Normaliser un email (minuscules et trim)
+     */
+    private function normalizeEmail($email) {
+        return strtolower(trim($email));
+    }
+    
+    /**
+     * Normaliser un nom d'utilisateur (trim seulement)
+     */
+    private function normalizeUsername($username) {
+        return trim($username);
+    }
+    
+    /**
+     * Corriger automatiquement l'encodage des données utilisateur
+     */
+    private function fixUserData($data) {
+        if (is_array($data)) {
+            $data['username'] = EncodingHelper::fixEncoding($data['username'] ?? '');
+            $data['email'] = EncodingHelper::fixEncoding($data['email'] ?? '');
+            $data['bio'] = EncodingHelper::fixEncoding($data['bio'] ?? '');
+            $data['security_question'] = EncodingHelper::fixEncoding($data['security_question'] ?? '');
+        }
+        return $data;
+    }
+    
+    /**
      * Créer un nouvel utilisateur
      */
     public function create($data) {
+        $data = $this->fixUserData($data);
+        
         $sql = "INSERT INTO users (username, email, password, role, created_at) 
                 VALUES (:username, :email, :password, :role, NOW())";
         
@@ -22,8 +52,8 @@ class User {
         $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT, ['cost' => PASSWORD_COST]);
         
         return $stmt->execute([
-            'username' => $data['username'],
-            'email' => $data['email'],
+            'username' => $this->normalizeUsername($data['username']),
+            'email' => $this->normalizeEmail($data['email']),
             'password' => $hashedPassword,
             'role' => $data['role'] ?? 'user'
         ]);
@@ -33,14 +63,16 @@ class User {
      * Authentifier un utilisateur
      */
     public function authenticate($email, $password) {
-        $sql = "SELECT * FROM users WHERE email = :email";
+        $normalizedEmail = $this->normalizeEmail($email);
+        
+        $sql = "SELECT * FROM users WHERE LOWER(email) = :email";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $email]);
+        $stmt->execute(['email' => $normalizedEmail]);
         $user = $stmt->fetch();
         
         if ($user && password_verify($password, $user['password'])) {
             unset($user['password']); // Ne pas stocker le mot de passe en session
-            return $user;
+            return EncodingHelper::fixUserData($user);
         }
         
         return false;
@@ -53,17 +85,23 @@ class User {
         $sql = "SELECT id, username, email, role, created_at, bio, profile_picture, security_question, security_answer, profile_completed FROM users WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        $user = $stmt->fetch();
+        
+        return $user ? EncodingHelper::fixUserData($user) : $user;
     }
     
     /**
      * Récupérer un utilisateur par email
      */
     public function getByEmail($email) {
-        $sql = "SELECT id, username, email, role, created_at FROM users WHERE email = :email";
+        $normalizedEmail = $this->normalizeEmail($email);
+        
+        $sql = "SELECT id, username, email, role, created_at FROM users WHERE LOWER(email) = :email";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        return $stmt->fetch();
+        $stmt->execute(['email' => $normalizedEmail]);
+        $user = $stmt->fetch();
+        
+        return $user ? EncodingHelper::fixUserData($user) : $user;
     }
     
     /**
@@ -73,18 +111,22 @@ class User {
         $sql = "SELECT id, username, email, password, role, created_at FROM users WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        $user = $stmt->fetch();
+        
+        return $user ? EncodingHelper::fixUserData($user) : $user;
     }
     
     /**
      * Mettre à jour un utilisateur
      */
     public function update($id, $data) {
+        $data = $this->fixUserData($data);
+        
         $sql = "UPDATE users SET username = :username, email = :email WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
-            'username' => $data['username'],
-            'email' => $data['email'],
+            'username' => $this->normalizeUsername($data['username']),
+            'email' => $this->normalizeEmail($data['email']),
             'id' => $id
         ]);
     }
@@ -106,13 +148,15 @@ class User {
      * Vérifier si un email existe déjà
      */
     public function emailExists($email, $excludeId = null) {
-        $sql = "SELECT COUNT(*) FROM users WHERE email = :email";
+        $normalizedEmail = $this->normalizeEmail($email);
+        
+        $sql = "SELECT COUNT(*) FROM users WHERE LOWER(email) = :email";
         if ($excludeId) {
             $sql .= " AND id != :exclude_id";
         }
         
         $stmt = $this->pdo->prepare($sql);
-        $params = ['email' => $email];
+        $params = ['email' => $normalizedEmail];
         if ($excludeId) {
             $params['exclude_id'] = $excludeId;
         }
@@ -125,13 +169,15 @@ class User {
      * Vérifier si un nom d'utilisateur existe déjà
      */
     public function usernameExists($username, $excludeId = null) {
+        $normalizedUsername = $this->normalizeUsername($username);
+        
         $sql = "SELECT COUNT(*) FROM users WHERE username = :username";
         if ($excludeId) {
             $sql .= " AND id != :exclude_id";
         }
         
         $stmt = $this->pdo->prepare($sql);
-        $params = ['username' => $username];
+        $params = ['username' => $normalizedUsername];
         if ($excludeId) {
             $params['exclude_id'] = $excludeId;
         }
@@ -147,7 +193,10 @@ class User {
         $sql = "SELECT id, username, email, role, created_at FROM users ORDER BY created_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $users = $stmt->fetchAll();
+        
+        // Corriger l'encodage de tous les utilisateurs
+        return array_map([$this, 'fixUserData'], $users);
     }
     
     /**
@@ -163,10 +212,14 @@ class User {
      * Récupérer un utilisateur par email avec question de sécurité
      */
     public function getByEmailWithSecurity($email) {
-        $sql = "SELECT id, username, email, bio, profile_picture, security_question, security_answer FROM users WHERE email = :email";
+        $normalizedEmail = $this->normalizeEmail($email);
+        
+        $sql = "SELECT id, username, email, bio, profile_picture, security_question, security_answer FROM users WHERE LOWER(email) = :email";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['email' => $email]);
-        return $stmt->fetch();
+        $stmt->execute(['email' => $normalizedEmail]);
+        $user = $stmt->fetch();
+        
+        return $user ? EncodingHelper::fixUserData($user) : $user;
     }
     
     /**
@@ -192,7 +245,7 @@ class User {
         $sql = "UPDATE users SET security_question = :question, security_answer = :answer WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
-            'question' => $question,
+            'question' => EncodingHelper::fixEncoding($question),
             'answer' => $hashedAnswer,
             'id' => $userId
         ]);
@@ -216,18 +269,20 @@ class User {
      * Mettre à jour le profil utilisateur
      */
     public function updateProfile($userId, $data) {
+        $data = $this->fixUserData($data);
+        
         // Construire la requête SQL dynamiquement
         $fields = [];
         $params = ['id' => $userId];
         
         if (isset($data['username'])) {
             $fields[] = 'username = :username';
-            $params['username'] = $data['username'];
+            $params['username'] = $this->normalizeUsername($data['username']);
         }
         
         if (isset($data['email'])) {
             $fields[] = 'email = :email';
-            $params['email'] = $data['email'];
+            $params['email'] = $this->normalizeEmail($data['email']);
         }
         
         if (isset($data['bio'])) {

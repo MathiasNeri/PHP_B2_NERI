@@ -60,7 +60,7 @@ class UserController {
         }
         
         $username = trim($_POST['username'] ?? '');
-        $email = trim($_POST['email'] ?? '');
+        $email = strtolower(trim($_POST['email'] ?? '')); // Normaliser l'email
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
         $role = trim($_POST['role'] ?? 'user');

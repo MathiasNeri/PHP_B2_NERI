@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/EncodingHelper.php';
 
 /**
  * Classe Skill - Gestion des compétences
@@ -12,9 +13,23 @@ class Skill {
     }
     
     /**
+     * Corriger automatiquement l'encodage des données de compétence
+     */
+    private function fixSkillData($data) {
+        if (is_array($data)) {
+            $data['name'] = EncodingHelper::fixEncoding($data['name'] ?? '');
+            $data['description'] = EncodingHelper::fixEncoding($data['description'] ?? '');
+            $data['category'] = EncodingHelper::fixEncoding($data['category'] ?? '');
+        }
+        return $data;
+    }
+    
+    /**
      * Créer une nouvelle compétence
      */
     public function create($data) {
+        $data = $this->fixSkillData($data);
+        
         $sql = "INSERT INTO skills (name, description, category, is_public, created_at) 
                 VALUES (:name, :description, :category, :is_public, NOW())";
         
@@ -40,7 +55,9 @@ class Skill {
         $sql = "SELECT * FROM skills WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        $skill = $stmt->fetch();
+        
+        return $skill ? EncodingHelper::fixSkillData($skill) : $skill;
     }
     
     /**
@@ -50,7 +67,10 @@ class Skill {
         $sql = "SELECT * FROM skills ORDER BY is_public DESC, category, name";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $skills = $stmt->fetchAll();
+        
+        // Corriger l'encodage de toutes les compétences
+        return array_map([$this, 'fixSkillData'], $skills);
     }
     
     /**
@@ -60,20 +80,26 @@ class Skill {
         $sql = "SELECT * FROM skills WHERE is_public = TRUE ORDER BY category, name";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $skills = $stmt->fetchAll();
+        
+        // Corriger l'encodage de toutes les compétences
+        return array_map([$this, 'fixSkillData'], $skills);
     }
     
     /**
      * Récupérer les compétences privées d'un utilisateur
      */
-    public function getPrivateByUser($userId) {
+    public function getPrivateByUserId($userId) {
         $sql = "SELECT s.* FROM skills s 
                 JOIN user_skills us ON s.id = us.skill_id 
                 WHERE us.user_id = :user_id AND s.is_public = FALSE 
                 ORDER BY s.category, s.name";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['user_id' => $userId]);
-        return $stmt->fetchAll();
+        $skills = $stmt->fetchAll();
+        
+        // Corriger l'encodage de toutes les compétences
+        return array_map([$this, 'fixSkillData'], $skills);
     }
     
     /**
@@ -83,13 +109,18 @@ class Skill {
         $sql = "SELECT * FROM skills WHERE category = :category ORDER BY name";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['category' => $category]);
-        return $stmt->fetchAll();
+        $skills = $stmt->fetchAll();
+        
+        // Corriger l'encodage de toutes les compétences
+        return array_map([$this, 'fixSkillData'], $skills);
     }
     
     /**
      * Mettre à jour une compétence
      */
     public function update($id, $data) {
+        $data = $this->fixSkillData($data);
+        
         $sql = "UPDATE skills SET name = :name, description = :description, 
                 category = :category WHERE id = :id";
         
@@ -120,7 +151,9 @@ class Skill {
     /**
      * Vérifier si une compétence existe déjà
      */
-    public function nameExists($name, $excludeId = null) {
+    public function exists($name, $excludeId = null) {
+        $name = EncodingHelper::fixEncoding($name);
+        
         $sql = "SELECT COUNT(*) FROM skills WHERE name = :name";
         if ($excludeId) {
             $sql .= " AND id != :exclude_id";
@@ -146,7 +179,10 @@ class Skill {
                 ORDER BY us.created_at DESC, s.category, s.name";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['user_id' => $userId]);
-        return $stmt->fetchAll();
+        $skills = $stmt->fetchAll();
+        
+        // Corriger l'encodage de toutes les compétences
+        return array_map([$this, 'fixSkillData'], $skills);
     }
     
     /**
@@ -198,7 +234,10 @@ class Skill {
         $sql = "SELECT DISTINCT category FROM skills ORDER BY category";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        // Corriger l'encodage de toutes les catégories
+        return array_map([EncodingHelper::class, 'fixEncoding'], $categories);
     }
     
     /**

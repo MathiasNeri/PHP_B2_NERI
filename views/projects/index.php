@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Projets - <?= APP_NAME ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +21,7 @@
                 </a>
                 <a class="nav-link me-3" href="index.php?action=profile" title="Mon Profil">
                     <i class="fas fa-user"></i> 
-                    <?= htmlspecialchars($user['username']) ?>
+                    <?= EncodingHelper::h($user['username']) ?>
                     <?php if ($authController->isAdmin()): ?>
                         <span class="badge bg-warning text-dark">Admin</span>
                     <?php endif; ?>
@@ -45,7 +46,7 @@
                 <?php if (!empty($_SESSION['success'])): ?>
                     <div class="alert alert-success" role="alert">
                         <i class="fas fa-check-circle"></i>
-                        <?= htmlspecialchars($_SESSION['success']) ?>
+                        <?= EncodingHelper::h($_SESSION['success']) ?>
                     </div>
                     <?php unset($_SESSION['success']); ?>
                 <?php endif; ?>
@@ -53,7 +54,7 @@
                 <?php if (!empty($_SESSION['error'])): ?>
                     <div class="alert alert-danger" role="alert">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <?= htmlspecialchars($_SESSION['error']) ?>
+                        <?= EncodingHelper::h($_SESSION['error']) ?>
                     </div>
                     <?php unset($_SESSION['error']); ?>
                 <?php endif; ?>
@@ -74,10 +75,10 @@
                         <?php foreach ($projects as $project): ?>
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card h-100 shadow-sm">
-                                    <?php if ($project['image']): ?>
-                                        <img src="public/uploads/<?= htmlspecialchars($project['image']) ?>" 
+                                    <?php if ($project['image'] && file_exists('public/uploads/' . $project['image'])): ?>
+                                        <img src="public/uploads/<?= EncodingHelper::h($project['image']) ?>" 
                                              class="card-img-top" 
-                                             alt="<?= htmlspecialchars($project['title']) ?>"
+                                             alt="<?= EncodingHelper::h($project['title']) ?>"
                                              style="height: 200px; object-fit: cover;">
                                     <?php else: ?>
                                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
@@ -87,13 +88,13 @@
                                     <?php endif; ?>
                                     
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>
+                                        <h5 class="card-title"><?= EncodingHelper::h($project['title']) ?></h5>
                                         <p class="card-text text-muted">
-                                            <?= htmlspecialchars(substr($project['description'], 0, 100)) ?>...
+                                            <?= EncodingHelper::h(substr($project['description'], 0, 100)) ?>...
                                         </p>
                                         
                                         <?php if ($project['link']): ?>
-                                            <a href="<?= htmlspecialchars($project['link']) ?>" 
+                                            <a href="<?= EncodingHelper::h($project['link']) ?>" 
                                                class="btn btn-outline-primary btn-sm mb-2" 
                                                target="_blank">
                                                 <i class="fas fa-external-link-alt"></i> Voir le projet
@@ -102,7 +103,7 @@
                                         
                                         <div class="text-muted small">
                                             <i class="fas fa-user"></i> 
-                                            <?= htmlspecialchars($project['username'] ?? 'Utilisateur') ?>
+                                            <?= EncodingHelper::h($project['username'] ?? 'Utilisateur') ?>
                                             <br>
                                             <i class="fas fa-calendar"></i> 
                                             <?= date('d/m/Y', strtotime($project['created_at'])) ?>

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/EncodingHelper.php';
 
 /**
  * Classe Project - Gestion des projets
@@ -12,9 +13,23 @@ class Project {
     }
     
     /**
+     * Corriger automatiquement l'encodage des données de projet
+     */
+    private function fixProjectData($data) {
+        if (is_array($data)) {
+            $data['title'] = EncodingHelper::fixEncoding($data['title'] ?? '');
+            $data['description'] = EncodingHelper::fixEncoding($data['description'] ?? '');
+            $data['link'] = EncodingHelper::fixEncoding($data['link'] ?? '');
+        }
+        return $data;
+    }
+    
+    /**
      * Créer un nouveau projet
      */
     public function create($data) {
+        $data = $this->fixProjectData($data);
+        
         $sql = "INSERT INTO projects (user_id, title, description, image, link, created_at) 
                 VALUES (:user_id, :title, :description, :image, :link, NOW())";
         
@@ -37,7 +52,9 @@ class Project {
                 WHERE p.id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        $project = $stmt->fetch();
+        
+        return $project ? EncodingHelper::fixProjectData($project) : $project;
     }
     
     /**
@@ -47,7 +64,10 @@ class Project {
         $sql = "SELECT * FROM projects WHERE user_id = :user_id ORDER BY created_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['user_id' => $userId]);
-        return $stmt->fetchAll();
+        $projects = $stmt->fetchAll();
+        
+        // Corriger l'encodage de tous les projets
+        return array_map([$this, 'fixProjectData'], $projects);
     }
     
     /**
@@ -59,7 +79,10 @@ class Project {
                 ORDER BY p.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $projects = $stmt->fetchAll();
+        
+        // Corriger l'encodage de tous les projets
+        return array_map([$this, 'fixProjectData'], $projects);
     }
     
     /**
@@ -72,13 +95,18 @@ class Project {
                 ORDER BY p.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll();
+        $projects = $stmt->fetchAll();
+        
+        // Corriger l'encodage de tous les projets
+        return array_map([$this, 'fixProjectData'], $projects);
     }
     
     /**
      * Mettre à jour un projet
      */
     public function update($id, $data) {
+        $data = $this->fixProjectData($data);
+        
         $sql = "UPDATE projects SET title = :title, description = :description, 
                 image = :image, link = :link, updated_at = NOW() 
                 WHERE id = :id";

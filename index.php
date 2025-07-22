@@ -6,6 +6,13 @@
 
 // Charger la configuration
 require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/config/EncodingHelper.php';
+
+// Initialiser l'encodage UTF-8 automatiquement
+EncodingHelper::initUTF8();
+
+// Corriger automatiquement les données d'entrée
+EncodingHelper::fixInputData();
 
 // Charger les contrôleurs
 require_once __DIR__ . '/controllers/AuthController.php';

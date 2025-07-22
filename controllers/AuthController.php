@@ -68,7 +68,8 @@ class AuthController {
             exit;
         }
         
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        // Normaliser l'email en minuscules
+        $email = strtolower(trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)));
         $password = $_POST['password'] ?? '';
         $remember = isset($_POST['remember']);
         
@@ -150,7 +151,7 @@ class AuthController {
         }
         
         $username = trim($_POST['username'] ?? '');
-        $email = trim($_POST['email'] ?? '');
+        $email = strtolower(trim($_POST['email'] ?? '')); // Normaliser l'email
         $password = $_POST['password'] ?? '';
         $confirmPassword = $_POST['confirm_password'] ?? '';
         
