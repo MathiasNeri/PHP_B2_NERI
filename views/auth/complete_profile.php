@@ -112,13 +112,32 @@
                                 <label for="security_question" class="form-label">
                                     <i class="fas fa-question-circle"></i> Votre question de sécurité
                                 </label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="security_question" 
-                                       name="security_question" 
-                                       value="<?= htmlspecialchars($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') ?>"
-                                       placeholder="Ex: Quel est le nom de votre premier animal de compagnie ?"
-                                       required>
+                                <select class="form-control" 
+                                        id="security_question" 
+                                        name="security_question" 
+                                        required>
+                                    <option value="">Choisissez une question...</option>
+                                    <option value="Quel est le nom de votre premier animal de compagnie ?" 
+                                            <?= ($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') === 'Quel est le nom de votre premier animal de compagnie ?' ? 'selected' : '' ?>>
+                                        Quel est le nom de votre premier animal de compagnie ?
+                                    </option>
+                                    <option value="Dans quelle ville êtes-vous né(e) ?" 
+                                            <?= ($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') === 'Dans quelle ville êtes-vous né(e) ?' ? 'selected' : '' ?>>
+                                        Dans quelle ville êtes-vous né(e) ?
+                                    </option>
+                                    <option value="Quel est le nom de votre mère ?" 
+                                            <?= ($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') === 'Quel est le nom de votre mère ?' ? 'selected' : '' ?>>
+                                        Quel est le nom de votre mère ?
+                                    </option>
+                                    <option value="Quel était votre premier métier ?" 
+                                            <?= ($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') === 'Quel était votre premier métier ?' ? 'selected' : '' ?>>
+                                        Quel était votre premier métier ?
+                                    </option>
+                                    <option value="Quel est le nom de votre école primaire ?" 
+                                            <?= ($_SESSION['form_data']['security_question'] ?? $userWithSecurity['security_question'] ?? '') === 'Quel est le nom de votre école primaire ?' ? 'selected' : '' ?>>
+                                        Quel est le nom de votre école primaire ?
+                                    </option>
+                                </select>
                                 <div class="form-text">
                                     Choisissez une question personnelle dont vous seul connaissez la réponse. Cette question sera utilisée pour récupérer votre mot de passe.
                                 </div>

@@ -11,7 +11,7 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 
 ### Authentification & Gestion des Comptes
 - [x] Inscription avec validation des champs
-- [x] Connexion sécurisée avec sessions et option "Se souvenir de moi"
+- [x] Connexion sécurisée avec sessions
 - [x] Gestion des rôles (Admin / Utilisateur)
 - [x] Mise à jour des informations utilisateur
 - [x] Réinitialisation du mot de passe
@@ -55,7 +55,10 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
    # Méthode 2 - PowerShell
    cmd /c "mysql -u root -p < .\config\database.sql"
    
-   # Méthode 3 - phpMyAdmin
+   # Méthode 3 - Si WAMP n'est pas dans le PATH
+   "C:\wamp64\bin\mysql\mysql8.0.XX\bin\mysql.exe" -u root -p < config/database.sql
+   
+   # Méthode 4 - phpMyAdmin
    # Créer une base de données 'projetb2' et importer config/database.sql
    ```
 

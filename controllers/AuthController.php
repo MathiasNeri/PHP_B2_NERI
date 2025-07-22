@@ -46,8 +46,9 @@ class AuthController {
         }
         
         $error = $_SESSION['error'] ?? '';
+        $success = $_SESSION['success'] ?? '';
         $email = $_SESSION['form_data']['email'] ?? '';
-        unset($_SESSION['error'], $_SESSION['form_data']);
+        unset($_SESSION['error'], $_SESSION['success'], $_SESSION['form_data']);
         
         include __DIR__ . '/../views/auth/login.php';
     }
@@ -71,7 +72,6 @@ class AuthController {
         // Normaliser l'email en minuscules
         $email = strtolower(trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL)));
         $password = $_POST['password'] ?? '';
-        $remember = isset($_POST['remember']);
         
         // Validation
         if (empty($email) || empty($password)) {
@@ -89,15 +89,6 @@ class AuthController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user'] = $user;
             $_SESSION['last_activity'] = time();
-            
-            // Cookie "se souvenir de moi"
-            if ($remember) {
-                $token = bin2hex(random_bytes(32));
-                setcookie('remember_token', $token, time() + COOKIE_LIFETIME, '/', '', true, true);
-                
-                // Stocker le token en base (à implémenter si nécessaire)
-                // $this->userModel->saveRememberToken($user['id'], $token);
-            }
             
             // Vérifier si le profil est complété
             $completion = $this->userModel->getProfileCompletion($user['id']);
@@ -224,11 +215,6 @@ class AuthController {
         // Détruire la session
         session_destroy();
         
-        // Supprimer le cookie "se souvenir de moi"
-        if (isset($_COOKIE['remember_token'])) {
-            setcookie('remember_token', '', time() - 3600, '/');
-        }
-        
         header('Location: index.php?action=login');
         exit;
     }
@@ -246,6 +232,11 @@ class AuthController {
     public function getCurrentUser() {
         if (!$this->isLoggedIn()) {
             return null;
+        }
+        
+        // Utiliser les données de session mises à jour si elles existent
+        if (isset($_SESSION['user_data'])) {
+            return $_SESSION['user_data'];
         }
         
         return $this->userModel->getById($_SESSION['user_id']);

@@ -28,6 +28,13 @@
                             </div>
                         <?php endif; ?>
 
+                        <?php if (!empty($success)): ?>
+                            <div class="alert alert-success" role="alert">
+                                <i class="fas fa-check-circle"></i>
+                                <?= htmlspecialchars($success) ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form method="POST" action="index.php?action=login">
                             <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= $this->generateCSRFToken() ?>">
                             
@@ -52,16 +59,6 @@
                                        id="password" 
                                        name="password" 
                                        required>
-                            </div>
-
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" 
-                                       class="form-check-input" 
-                                       id="remember" 
-                                       name="remember">
-                                <label class="form-check-label" for="remember">
-                                    Se souvenir de moi
-                                </label>
                             </div>
 
                             <div class="d-grid">

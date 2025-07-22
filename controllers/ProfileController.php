@@ -222,6 +222,10 @@ class ProfileController {
         if (move_uploaded_file($fileTmp, $uploadPath)) {
             // Mettre à jour la base de données
             if ($this->userModel->updateProfilePicture($user['id'], $newFileName)) {
+                // Mettre à jour la session avec les nouvelles données utilisateur
+                $updatedUser = $this->userModel->getById($user['id']);
+                $_SESSION['user_data'] = $updatedUser;
+                
                 $_SESSION['success'] = 'Photo de profil mise à jour avec succès !';
             } else {
                 $_SESSION['error'] = 'Erreur lors de la mise à jour de la photo de profil.';

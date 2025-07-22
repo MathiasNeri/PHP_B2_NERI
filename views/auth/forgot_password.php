@@ -18,7 +18,7 @@
                                 <i class="fas fa-key"></i>
                             </h2>
                             <h4>Mot de passe oublié</h4>
-                            <p class="text-muted">Entrez votre email pour recevoir un lien de réinitialisation</p>
+                            <p class="text-muted">Entrez votre email pour accéder à votre question de sécurité</p>
                         </div>
 
                         <?php if (!empty($error)): ?>
@@ -48,13 +48,13 @@
                                        name="email" 
                                        required>
                                 <div class="form-text">
-                                    Nous vous enverrons un lien de réinitialisation par email.
+                                    Nous vous redirigerons vers votre question de sécurité personnalisée.
                                 </div>
                             </div>
 
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-warning btn-lg">
-                                    <i class="fas fa-paper-plane"></i> Envoyer le lien
+                                    <i class="fas fa-question-circle"></i> Continuer
                                 </button>
                             </div>
                         </form>

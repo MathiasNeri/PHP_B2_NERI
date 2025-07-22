@@ -18,14 +18,26 @@
                 <a class="nav-link" href="index.php?action=dashboard">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a class="nav-link me-3" href="index.php?action=profile" title="Mon Profil">
-                    <i class="fas fa-user"></i> 
-                     <?= htmlspecialchars($user['username']) ?>
-                    <?php if ($authController->isAdmin()): ?>
-                        <span class="badge bg-warning text-dark">Admin
+                <a class="nav-link" href="index.php?action=skills&subaction=user">
+                    <i class="fas fa-code"></i> Mes Compétences
                 </a>
+                <a class="nav-link" href="index.php?action=projects">
+                    <i class="fas fa-project-diagram"></i> Mes Projets
+                </a>
+                <a class="nav-link me-3" href="index.php?action=profile" title="Mon Profil">
+                    <?php if (!empty($user['profile_picture'])): ?>
+                        <img src="public/uploads/<?= htmlspecialchars($user['profile_picture']) ?>" 
+                             class="rounded-circle me-2" 
+                             alt="Photo de profil"
+                             style="width: 30px; height: 30px; object-fit: cover;">
+                    <?php else: ?>
+                        <i class="fas fa-user me-2"></i>
                     <?php endif; ?>
-                </span>
+                    <?= htmlspecialchars($user['username']) ?>
+                    <?php if ($authController->isAdmin()): ?>
+                        <span class="badge bg-warning text-dark ms-1">Admin</span>
+                    <?php endif; ?>
+                </a>
                 <a class="nav-link" href="index.php?action=logout">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>

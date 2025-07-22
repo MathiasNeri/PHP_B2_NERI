@@ -20,6 +20,7 @@ require_once __DIR__ . '/controllers/ProjectController.php';
 require_once __DIR__ . '/controllers/SkillController.php';
 require_once __DIR__ . '/controllers/ProfileController.php';
 require_once __DIR__ . '/controllers/UserController.php';
+require_once __DIR__ . '/controllers/LegalController.php';
 
 // Initialiser les contrôleurs
 $authController = new AuthController();
@@ -27,6 +28,7 @@ $projectController = new ProjectController();
 $skillController = new SkillController();
 $profileController = new ProfileController();
 $userController = new UserController();
+$legalController = new LegalController();
 
 // Récupérer l'action depuis l'URL
 $action = $_GET['action'] ?? 'login';
@@ -217,6 +219,28 @@ switch ($action) {
                 break;
             default:
                 $userController->index();
+        }
+        break;
+        
+    // Pages légales
+    case 'legal':
+        $page = $_GET['page'] ?? 'mentions';
+        
+        switch ($page) {
+            case 'mentions':
+                $legalController->mentions();
+                break;
+            case 'privacy':
+                $legalController->privacy();
+                break;
+            case 'terms':
+                $legalController->terms();
+                break;
+            case 'gdpr':
+                $legalController->gdpr();
+                break;
+            default:
+                $legalController->mentions();
         }
         break;
         
