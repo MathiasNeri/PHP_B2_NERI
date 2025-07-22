@@ -59,7 +59,36 @@ mysql --version
 - Utilisez les chemins complets : `C:\wamp64\bin\php\php8.3.6\php.exe`
 - Ou ajoutez les chemins au PATH Windows
 
-### 🔧 Installation étape par étape
+### 🚀 Installation Automatisée (Recommandée)
+
+#### Méthode 1 : Installation rapide
+```bash
+# Cloner le projet
+git clone url_de_votre_repo
+cd PHP_B2_NERI
+
+# Lancer l'installation automatique
+php install_simple.php
+```
+
+#### Méthode 2 : Installation complète
+```bash
+# Cloner le projet
+git clone url_de_votre_repo
+cd PHP_B2_NERI
+
+# Lancer l'installation complète
+php install.php
+```
+
+**Avantages de l'installation automatisée :**
+- ✅ Configuration automatique de l'encodage UTF-8
+- ✅ Création automatique de la base de données et des utilisateurs
+- ✅ Insertion des données de test avec le bon encodage
+- ✅ Vérification des prérequis système
+- ✅ Création automatique des dossiers nécessaires
+
+### 🔧 Installation Manuelle
 
 #### Étape 1 : Cloner le projet
 ```bash
@@ -79,7 +108,7 @@ Get-Content database/database.sql | mysql -u root -p
 **Sur Linux/Mac ou Git Bash :**
 ```bash
 mysql -u root -p < database/database.sql
-
+```
 
 **Méthode B - phpMyAdmin :**
 1. Ouvrir phpMyAdmin dans votre navigateur

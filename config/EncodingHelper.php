@@ -35,25 +35,20 @@ class EncodingHelper {
     }
     
     /**
-     * Corriger l'encodage d'une chaîne de caractères
+     * Corriger l'encodage d'une chaîne de caractères (simplifié)
      */
     public static function fixEncoding($string) {
         if (empty($string)) {
             return $string;
         }
         
-        // Détecter l'encodage actuel
-        $encoding = mb_detect_encoding($string, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true);
-        
-        if ($encoding === false) {
-            // Essayer de convertir depuis Windows-1252 (encodage Windows par défaut)
-            $string = mb_convert_encoding($string, 'UTF-8', 'Windows-1252');
-        } elseif ($encoding !== 'UTF-8') {
-            // Convertir vers UTF-8
-            $string = mb_convert_encoding($string, 'UTF-8', $encoding);
+        // Si la chaîne est déjà en UTF-8, la retourner telle quelle
+        if (mb_check_encoding($string, 'UTF-8')) {
+            return $string;
         }
         
-        return $string;
+        // Sinon, essayer de convertir depuis Windows-1252
+        return mb_convert_encoding($string, 'UTF-8', 'Windows-1252');
     }
     
     /**
@@ -124,7 +119,7 @@ class EncodingHelper {
      * Fonction helper pour htmlspecialchars avec UTF-8
      */
     public static function h($string) {
-        return htmlspecialchars(self::fixEncoding($string), ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
     
     /**

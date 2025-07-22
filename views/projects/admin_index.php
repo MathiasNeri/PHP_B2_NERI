@@ -70,16 +70,10 @@
                         <?php foreach ($projects as $project): ?>
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card h-100">
-                                    <?php if ($project['image']): ?>
-                                        <img src="public/uploads/<?= htmlspecialchars($project['image']) ?>" 
-                                             class="card-img-top" alt="<?= htmlspecialchars($project['title']) ?>"
-                                             style="height: 200px; object-fit: cover;">
-                                    <?php else: ?>
-                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                             style="height: 200px;">
-                                            <i class="fas fa-image fa-3x text-muted"></i>
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                         style="height: 200px;">
+                                        <i class="fas fa-project-diagram fa-3x text-muted"></i>
+                                    </div>
                                     
                                     <div class="card-body">
                                         <h5 class="card-title"><?= htmlspecialchars($project['title']) ?></h5>

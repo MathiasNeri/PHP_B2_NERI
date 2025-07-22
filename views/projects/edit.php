@@ -96,15 +96,13 @@
                                     <i class="fas fa-image"></i> Image du projet
                                 </label>
                                 
-                                <?php if ($project['image']): ?>
-                                    <div class="mb-2">
-                                        <img src="public/uploads/<?= htmlspecialchars($project['image']) ?>" 
-                                             alt="Image actuelle" 
-                                             class="img-thumbnail" 
-                                             style="max-width: 200px;">
-                                        <div class="form-text">Image actuelle</div>
+                                <div class="mb-2">
+                                    <div class="bg-light d-inline-flex align-items-center justify-content-center" 
+                                         style="width: 200px; height: 150px; border: 1px solid #dee2e6;">
+                                        <i class="fas fa-project-diagram fa-2x text-muted"></i>
                                     </div>
-                                <?php endif; ?>
+                                    <div class="form-text">Aperçu du projet</div>
+                                </div>
                                 
                                 <input type="file" 
                                        class="form-control" 

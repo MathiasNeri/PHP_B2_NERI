@@ -75,8 +75,10 @@
                                     </div>
                                     
                                     <div class="text-center mb-3">
-                                        <img id="preview" src="<?= !empty($userWithSecurity['profile_picture']) ? UPLOAD_PATH . '/' . htmlspecialchars($userWithSecurity['profile_picture']) : 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 150 150\'%3E%3Crect width=\'150\' height=\'150\' fill=\'%23dee2e6\'/%3E%3Ctext x=\'75\' y=\'75\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%236c757d\'%3EAperçu%3C/text%3E%3C/svg%3E' ?>" 
-                                             class="profile-picture-preview" alt="Aperçu">
+                                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                             style="width: 150px; height: 150px; border: 3px solid #dee2e6;">
+                                            <i class="fas fa-user fa-4x text-muted"></i>
+                                        </div>
                                     </div>
                                 </div>
                                 

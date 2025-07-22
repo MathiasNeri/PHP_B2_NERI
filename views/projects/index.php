@@ -75,17 +75,10 @@
                         <?php foreach ($projects as $project): ?>
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card h-100 shadow-sm">
-                                    <?php if ($project['image'] && file_exists('public/uploads/' . $project['image'])): ?>
-                                        <img src="public/uploads/<?= EncodingHelper::h($project['image']) ?>" 
-                                             class="card-img-top" 
-                                             alt="<?= EncodingHelper::h($project['title']) ?>"
-                                             style="height: 200px; object-fit: cover;">
-                                    <?php else: ?>
-                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
-                                             style="height: 200px;">
-                                            <i class="fas fa-image fa-3x text-muted"></i>
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                         style="height: 200px;">
+                                        <i class="fas fa-project-diagram fa-3x text-muted"></i>
+                                    </div>
                                     
                                     <div class="card-body">
                                         <h5 class="card-title"><?= EncodingHelper::h($project['title']) ?></h5>

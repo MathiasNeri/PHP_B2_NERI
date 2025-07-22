@@ -38,7 +38,7 @@ class SkillController {
         $user = $this->authController->getCurrentUser();
         $userSkills = $this->skillModel->getUserSkills($user['id']);
         $availableSkills = $this->skillModel->getPublic();
-        $privateSkills = $this->skillModel->getPrivateByUser($user['id']);
+        $privateSkills = $this->skillModel->getPrivateByUserId($user['id']);
         $authController = $this->authController;
         
         include __DIR__ . '/../views/skills/user_skills.php';

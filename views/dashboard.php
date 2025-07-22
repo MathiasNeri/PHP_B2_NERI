@@ -22,14 +22,7 @@
                         $userModel = new User();
                         $userWithPhoto = $userModel->getById($currentUser['id']);
                         ?>
-                        <?php if (!empty($userWithPhoto['profile_picture'])): ?>
-                            <img src="public/uploads/<?= htmlspecialchars($userWithPhoto['profile_picture']) ?>" 
-                                 alt="Photo de profil" 
-                                 class="rounded-circle me-2" 
-                                 style="width: 32px; height: 32px; object-fit: cover;">
-                        <?php else: ?>
-                            <i class="fas fa-user-circle fa-lg me-2"></i>
-                        <?php endif; ?>
+                        <i class="fas fa-user-circle fa-lg me-2"></i>
                         <?= htmlspecialchars($currentUser['username']) ?>
                         <?php if ($authController->isAdmin()): ?>
                             <span class="badge bg-warning text-dark ms-1">Admin</span>

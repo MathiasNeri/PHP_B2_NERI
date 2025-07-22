@@ -20,14 +20,7 @@
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php if (!empty($userWithSecurity['profile_picture'])): ?>
-                            <img src="public/uploads/<?= htmlspecialchars($userWithSecurity['profile_picture']) ?>" 
-                                 alt="Photo de profil" 
-                                 class="rounded-circle me-2" 
-                                 style="width: 32px; height: 32px; object-fit: cover;">
-                        <?php else: ?>
-                            <i class="fas fa-user-circle fa-lg me-2"></i>
-                        <?php endif; ?>
+                        <i class="fas fa-user-circle fa-lg me-2"></i>
                         <?= htmlspecialchars($user['username']) ?>
                         <?php if ($authController->isAdmin()): ?>
                             <span class="badge bg-warning text-dark ms-1">Admin</span>
@@ -74,17 +67,10 @@
                                 <h5><i class="fas fa-camera"></i> Photo de profil</h5>
                             </div>
                             <div class="card-body text-center">
-                                <?php if (!empty($userWithSecurity['profile_picture'])): ?>
-                                    <img src="public/uploads/<?= htmlspecialchars($userWithSecurity['profile_picture']) ?>" 
-                                         alt="Photo de profil" 
-                                         class="rounded-circle mb-3" 
-                                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #007bff;">
-                                <?php else: ?>
-                                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                                         style="width: 150px; height: 150px; border: 3px solid #dee2e6;">
-                                        <i class="fas fa-user fa-4x text-muted"></i>
-                                    </div>
-                                <?php endif; ?>
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                                     style="width: 150px; height: 150px; border: 3px solid #dee2e6;">
+                                    <i class="fas fa-user fa-4x text-muted"></i>
+                                </div>
                                 
                                 <form method="POST" action="index.php?action=profile&subaction=upload_photo" enctype="multipart/form-data">
                                     <input type="hidden" name="<?= CSRF_TOKEN_NAME ?>" value="<?= $authController->generateCSRFToken() ?>">
