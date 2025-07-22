@@ -1,5 +1,12 @@
--- Portfolio PHP/MVC - Base de données
--- Projet B2
+-- Configuration de la base de données
+-- Portfolio PHP/MVC - Projet B2
+
+-- Variables de configuration
+SET @DB_HOST = 'localhost';
+SET @DB_PORT = 3306;
+SET @DB_NAME = 'projetb2';
+SET @DB_USER = 'projetb2';
+SET @DB_PASS = 'password';
 
 -- FORCER L'ENCODAGE UTF-8 AU DÉBUT
 SET NAMES utf8mb4;
@@ -13,7 +20,7 @@ SET collation_connection = utf8mb4_unicode_ci;
 SET collation_database = utf8mb4_unicode_ci;
 SET collation_server = utf8mb4_unicode_ci;
 
--- Création de la base de données et de l'utilisateur
+-- Création de la base de données
 CREATE DATABASE IF NOT EXISTS projetb2 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Création de l'utilisateur de base de données
@@ -53,7 +60,7 @@ CREATE TABLE users (
     bio TEXT DEFAULT NULL,
     profile_picture VARCHAR(255) DEFAULT NULL,
     profile_completed BOOLEAN DEFAULT FALSE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Table des compétences
 CREATE TABLE skills (
@@ -63,7 +70,7 @@ CREATE TABLE skills (
     category VARCHAR(50) DEFAULT 'general',
     is_public BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Table des projets
 CREATE TABLE projects (
@@ -76,7 +83,7 @@ CREATE TABLE projects (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Table de liaison utilisateurs-compétences
 CREATE TABLE user_skills (
@@ -88,9 +95,9 @@ CREATE TABLE user_skills (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (skill_id) REFERENCES skills(id) ON DELETE CASCADE,
     UNIQUE KEY unique_user_skill (user_id, skill_id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Insertion des données de test
+-- Insertion des données de test avec encodage UTF-8 correct
 
 -- Utilisateurs (mot de passe: password)
 INSERT INTO users (username, email, password, role, bio, security_question, security_answer, profile_completed) VALUES
@@ -98,7 +105,7 @@ INSERT INTO users (username, email, password, role, bio, security_question, secu
 ('User1', 'User1@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user', 'Développeur web passionné par les nouvelles technologies.', 'Quel est le nom de votre premier animal de compagnie ?', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', TRUE),
 ('User2', 'User2@example.com', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', 'user', 'Designer créatif spécialisé dans l\'expérience utilisateur.', 'Quel est le nom de votre premier animal de compagnie ?', '$2y$12$PcNlsgQGSojus0UNZO8WVeNUJ0fITrNNCzZVC5dGc3eWB7RR5vqy.', TRUE);
 
--- Compétences
+-- Compétences avec encodage UTF-8 correct
 INSERT INTO skills (name, description, category) VALUES
 ('PHP', 'Langage de programmation côté serveur', 'Langage de programmation'),
 ('JavaScript', 'Langage de programmation côté client', 'Langage de programmation'),
@@ -129,7 +136,7 @@ INSERT INTO skills (name, description, category) VALUES
 ('Azure', 'Services cloud de Microsoft', 'DevOps'),
 ('Google Cloud', 'Services cloud de Google', 'DevOps');
 
--- Projets avec encodage UTF-8 correct et images existantes
+-- Projets avec encodage UTF-8 correct et majuscules appropriées
 INSERT INTO projects (user_id, title, description, image, link) VALUES
 -- Projets de Admin
 (1, 'Système de Gestion Portfolio', 'Application complète de gestion de portfolio avec authentification et interface admin.', NULL, 'https://github.com/admin/portfolio-system'),
@@ -153,7 +160,7 @@ INSERT INTO user_skills (user_id, skill_id, level) VALUES
 (1, 7, 'expert'),   -- MySQL
 (1, 10, 'expert'),  -- Git
 (1, 16, 'avancé'),  -- Laravel
-(1, 21, 'avancé'),  -- VS Code
+(1, 23, 'avancé'),  -- VS Code
 
 -- User1 (4 compétences)
 (2, 1, 'avancé'),   -- PHP

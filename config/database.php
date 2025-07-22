@@ -4,7 +4,7 @@
  * Portfolio PHP/MVC - Projet B2
  */
 
-// Configuration de la base de données
+// Configuration de la base de données (selon les consignes)
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
 define('DB_NAME', 'projetb2');
