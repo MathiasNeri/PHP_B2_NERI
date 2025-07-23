@@ -44,7 +44,7 @@ Ce projet est une application web développée en PHP & MySQL permettant aux uti
 ### Étapes d'Installation
 1. Cloner le projet sur votre serveur local :
    ```sh
-   git clone url_de_votre_repo
+   git clone https://github.com/MathiasNeri/PHP_B2_NERI
    cd PHP_B2_NERI
    ```
 2. Importer la base de données :
